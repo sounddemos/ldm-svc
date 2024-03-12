@@ -1,144 +1,514 @@
 <!DOCTYPE html>
-<!-- saved from url=(0033)https://QicongXie.github.io/end2endvc/ -->
-<html lang="en-US">
+<html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="OlaWod">
 
-  <!-- Begin Jekyll SEO tag v2.7.1 -->
-  <title>DualVC: Dual-mode Voice Conversion using Intra-model Knowledge Distillation and Hybrid Predictive Coding</title>
-  <meta name="generator" content="Jekyll v3.9.0">
-  <meta property="og:title" content="TODO: title">
-  <meta property="og:locale" content="en_US">
-  <meta name="twitter:card" content="summary">
-  <!-- End Jekyll SEO tag -->
+    <title>LDM-SVC Demo Page</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#157878">
-  <link rel="stylesheet" href="style.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="./css/fontawesome.all.min.css">
+	
+	<script defer src="./js/fontawesome.all.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+	<!-- Custom scripts for this template -->
+	<script src="js/clean-blog.js"></script>
+	<script src="js/interp.js"></script>
+
 </head>
 
-<body data-new-gr-c-s-check-loaded="14.1001.0" data-gr-ext-installed="">
-  <section class="page-header">
-    <!-- <h1 class="project-name">Demo PAGE</h1> -->
-    <!-- <h2 class="project-tagline"></h2> -->
+<body id="page-top">
+
+	<!-- <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+		<div class="container">
+			<a class="navbar-brand js-scroll-trigger" href="#page-top">LDM-SVC</a>
+			<button class="navbar-toggler navbar-toggler-right font-weight-bold text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu <i class="fas fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#abstract">Abstract</a>
+					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#s2s">Seen-to-Seen</a></li>
+					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#u2s">Zero-shot Unseen-to-Unseen</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav> -->
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('img/home-bg.jpg')">
+        <div class="container" style="padding-bottom:10px">
+            <div class="row">
+                <div class="col-lg-10 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>LDM-SVC Demo</h1>
+                        <span class="subheading">
+                          LDM-SVC: Latent Diffusion Model Based Zero-Shot Any-to-Any Singing Voice Conversion with Singer Guidance
+                        </span>
+                    </div>
+                </div>
+            </div>
+			
+
+			
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-14 col-md-12 mx-auto">
+                <div class="post-preview" id="abstract">
+                    <h2 class="post-title">
+                        Abstract
+                    </h2>
+                    <p>
+                      Any-to-any singing voice conversion (SVC) is an interesting audio editing technique, aiming to convert the singing voice of one singer into that of another, given only a few seconds of singing data. However, during the conversion process, the issue of timbre leakage is inevitable: the converted singing voice still sounds like the original singer's voice. To tackle this, we propose a latent diffusion model for SVC (LDM-SVC)  in this work, which attempts to perform SVC in the latent space using an LDM. We pretrain a variational autoencoder structure using the noted open-source So-VITS-SVC project based on the VITS framework, which is then used for the LDM training. Besides, we propose a singer guidance training method based on  classifier-free guidance to further suppress the timbre of the original singer. Experimental results show the superiority of  the proposed method over previous works in both subjective and objective evaluations of timbre similarity. 
+						
+					</p>
+                </div>
+				
+					
+				
+                <div class="post-preview">
+                    <h2 class="post-title">
+                        Seen-to-Seen Singing Voice Conversion
+                    </h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Source</th>
+                                <th scope="col">Target</th>
+                                <th scope="col">Conversion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td>
+                                  <br>
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2M/src/M2M-3.wav">
+                                    </audio>
+                                </td>
+                                <td>
+                                  <br>
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2M/ref/M2M-3.wav">
+                                    </audio>
+                                </td>
+                                <td>
+									FastSVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2M/0/M2M-3.wav">
+                                    </audio> 
+									DiffSVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2M/1/M2M-3.wav">
+                                    </audio>
+									So-VITS-SVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2M/2/M2M-3.wav">
+                                    </audio>
+                                </td>
+                                <td>
+								    LDM-SVC w/o SD
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2M/3/M2M-3.wav">
+                                    </audio> 
+									LDM-SVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2M/4/M2M-3.wav">
+                                    </audio>
+                                </td>
+                            </tr>
+                  <h3 class="post-meta" id="s2s">
+                        Male-to-Male
+                    </h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Source</th>
+                                <th scope="col">Target</th>
+                                <th scope="col">Conversion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><br>
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2F/src/M2F-1.wav">
+                                    </audio>
+                                </td>
+                                <td><br>
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2F/ref/M2F-1.wav">
+                                    </audio>
+                                </td>
+                                <td>
+									FastSVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2F/0/M2F-1.wav">
+                                    </audio> 
+									DiffSVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2F/1/M2F-1.wav">
+                                    </audio>
+									So-VITS-SVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2F/2/M2F-1.wav">
+                                    </audio>
+                                </td>
+                                <td>
+								    LDM-SVC w/o SD
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2F/3/M2F-1.wav">
+                                    </audio> 
+									LDM-SVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/M2F/4/M2F-1.wav">
+                                    </audio>
+                                </td>
+                            </tr>
+                      <h3 class="post-meta" id="s2s">
+                          Male-to-Female
+                      </h3>
+                      
+                              
+                              
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Source</th>
+                                <th scope="col">Target</th>
+                                <th scope="col">Conversion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><br>
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/F2M/src/F2M-0.wav">
+                                    </audio>
+                                </td>
+                                <td><br>
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/F2M/ref/F2M-0.wav">
+                                    </audio>
+                                </td>
+                                <td>
+                  FastSVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/F2M/0/F2M-0.wav">
+                                    </audio> 
+                  DiffSVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/F2M/1/F2M-0.wav">
+                                    </audio>
+                  So-VITS-SVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/F2M/2/F2M-0.wav">
+                                    </audio>
+                                </td>
+                                <td>
+                    LDM-SVC w/o SD
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/F2M/3/F2M-0.wav">
+                                    </audio> 
+                  LDM-SVC
+                                    <audio controls preload="none">
+                                        <source src="samples/seen/F2M/4/F2M-0.wav">
+                                    </audio>
+
+                                </td>
+                            </tr>
+                          <h3 class="post-meta" id="s2s">
+                              Female-to-Male
+                          </h3>
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th scope="col">Source</th>
+                              <th scope="col">Target</th>
+                              <th scope="col">Conversion</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          
+                          <tr>
+                              <td><br>
+                                  <audio controls preload="none">
+                                      <source src="samples/seen/F2F/src/F2F-0.wav">
+                                  </audio>
+                              </td>
+                              <td><br>
+                                  <audio controls preload="none">
+                                      <source src="samples/seen/F2F/ref/F2F-0.wav">
+                                  </audio>
+                              </td>
+                              <td>
+                FastSVC
+                                  <audio controls preload="none">
+                                      <source src="samples/seen/F2F/0/F2F-0.wav">
+                                  </audio> 
+                DiffSVC
+                                  <audio controls preload="none">
+                                      <source src="samples/seen/F2F/1/F2F-0.wav">
+                                  </audio>
+                So-VITS-SVC
+                                  <audio controls preload="none">
+                                      <source src="samples/seen/F2F/2/F2F-0.wav">
+                                  </audio>
+                              </td>
+                              <td>
+                  LDM-SVC w/o SD
+                                  <audio controls preload="none">
+                                      <source src="samples/seen/F2F/3/F2F-0.wav">
+                                  </audio> 
+                LDM-SVC
+                                  <audio controls preload="none">
+                                      <source src="samples/seen/F2F/ref/F2F-0.wav4">
+                                  </audio>
+                              </td>
+                          </tr>
+                <h3 class="post-meta" id="s2s">
+                    Female-to-Female
+                </h3>
+                        </tbody>
+                    </table>
+					<hr>
+					
+				
+            </div>
+            <div class="post-preview">
+              <h2 class="post-title">
+                  Unseen-to-Unseen Singing Voice Conversion
+              </h2>
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th scope="col">Source</th>
+                          <th scope="col">Target</th>
+                          <th scope="col">Conversion</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      
+                      <tr>
+                          <td><br>
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2M/src/M2M-2.wav">
+                              </audio>
+                          </td>
+                          <td><br>
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2M/ref/M2M-2.wav">
+                              </audio>
+                          </td>
+                          <td>
+            FastSVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2M/0/M2M-2.wav">
+                              </audio> 
+            DiffSVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2M/1/M2M-2.wav">
+                              </audio>
+            So-VITS-SVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2M/2/M2M-2.wav">
+                              </audio>
+                          </td>
+                          <td>
+              LDM-SVC w/o SD
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2M/3/M2M-2.wav">
+                              </audio> 
+            LDM-SVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2M/4/M2M-2.wav">
+                              </audio>
+                          </td>
+                      </tr>
+            <h3 class="post-meta" id="s2s">
+                  Male-to-Male
+              </h3>
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th scope="col">Source</th>
+                          <th scope="col">Target</th>
+                          <th scope="col">Conversion</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      
+                      <tr>
+                          <td><br>
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2F/src/M2F-7.wav">
+                              </audio>
+                          </td>
+                          <td><br>
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2F/ref/M2F-7.wav">
+                              </audio>
+                          </td>
+                          <td>
+            FastSVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2F/0/M2F-7.wav">
+                              </audio> 
+            DiffSVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2F/1/M2F-7.wav">
+                              </audio>
+            So-VITS-SVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2F/2/M2F-7.wav">
+                              </audio>
+                          </td>
+                          <td>
+              LDM-SVC w/o SD
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2F/3/M2F-7.wav">
+                              </audio> 
+            LDM-SVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/M2F/4/M2F-7.wav">
+                              </audio>
+                          </td>
+                      </tr>
+                <h3 class="post-meta" id="s2s">
+                    Male-to-Female
+                </h3>
+                        
+                        
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th scope="col">Source</th>
+                          <th scope="col">Target</th>
+                          <th scope="col">Conversion</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      
+                      <tr>
+                          <td><br>
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/F2M/src/F2M-4.wav">
+                              </audio>
+                          </td>
+                          <td><br>
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/F2M/ref/F2M-4.wav">
+                              </audio>
+                          </td>
+                          <td>
+            FastSVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/F2M/0/F2M-4.wav">
+                              </audio> 
+            DiffSVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/F2M/1/F2M-4.wav">
+                              </audio>
+            So-VITS-SVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/F2M/2/F2M-4.wav">
+                              </audio>
+                          </td>
+                          <td>
+              LDM-SVC w/o SD
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/F2M/3/F2M-4.wav">
+                              </audio> 
+            LDM-SVC
+                              <audio controls preload="none">
+                                  <source src="samples/unseen/F2M/4/F2M-4.wav">
+                              </audio>
+                          </td>
+                      </tr>
+                    <h3 class="post-meta" id="s2s">
+                        Female-to-Male
+                    </h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Source</th>
+                        <th scope="col">Target</th>
+                        <th scope="col">Conversion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td><br>
+                            <audio controls preload="none">
+                                <source src="samples/unseen/F2F/src/F2F-5.wav">
+                            </audio>
+                        </td>
+                        <td><br>
+                            <audio controls preload="none">
+                                <source src="samples/unseen/F2F/ref/F2F-5.wav">
+                            </audio>
+                        </td>
+                        <td>
+          FastSVC
+                            <audio controls preload="none">
+                                <source src="samples/unseen/F2F/0/F2F-5.wav">
+                            </audio> 
+          DiffSVC
+                            <audio controls preload="none">
+                                <source src="samples/unseen/F2F/1/F2F-5.wav">
+                            </audio>
+          So-VITS-SVC
+                            <audio controls preload="none">
+                                <source src="samples/unseen/F2F/2/F2F-5.wav">
+                            </audio>
+                        </td>
+                        <td>
+            LDM-SVC w/o SD
+                            <audio controls preload="none">
+                                <source src="samples/unseen/F2F/3/F2F-5.wav">
+                            </audio> 
+          LDM-SVC
+                            <audio controls preload="none">
+                                <source src="samples/unseen/F2F/4/F2F-5.wav">
+                            </audio>
+                        </td>
+                    </tr>
+          <h3 class="post-meta" id="s2s">
+              Female-to-Female
+          </h3>
+                  </tbody>
+              </table>
+    <hr>
+    
+  
+      </div>
+        </div>
+		</div>
 
 
-  </section>
-
-  <section class="main-content">
-    <h1 id="">
-      <center>DualVC: Dual-mode Voice Conversion using Intra-model Knowledge Distillation and Hybrid Predictive Coding</center>
-    </h1>
-
-    <h3 id="">
-    <center>Ziqian Ning<sup>1, 2</sup>, Yuepeng Jiang<sup>1</sup>, Pengcheng Zhu<sup>2</sup>, Jixun Yao<sup>1</sup>, Shuai Wang<sup>3</sup>, Lei Xie<sup>1</sup>, Mengxiao Bi<sup>2</sup></center>
-    <center><sup>1</sup>Audio, Speech and Language Processing Group (ASLP@NPU), School of Computer Science, Northwestern Polytechnical University, Xi'an, China</center>
-    <center><sup>2</sup>Fuxi AI Lab, NetEase Inc., Hangzhou, China</center>
-    <center><sup>3</sup>Shanghai Jiao Tong University, Shanghai, China</center>
-    </h3>
-    <center>Accepted by INTERSPEECH 2023</center>
-
-
-    <br><br>
-    <h2 id="abstract">1. Abstract<a name="abstract"></a></h2>
-    <p>Voice conversion is an increasingly popular technology, and the growing number of real-time applications requires models with streaming conversion capabilities. Unlike typical (non-streaming) voice conversion, which can leverage the entire utterance as full context, streaming voice conversion faces significant challenges due to the missing future information, resulting in degraded intelligibility, speaker similarity, and sound quality. To address this challenge, we propose <b>DualVC</b>, a dual-mode neural voice conversion approach that supports both streaming and non-streaming modes using jointly trained separate network parameters. Furthermore, we propose intra-model knowledge distillation and hybrid predictive coding (HPC) to enhance the performance of streaming conversion.
-      Additionally, we incorporate data augmentation to train a noise-robust autoregressive decoder, improving the model's performance on long-form speech conversion. Experimental results demonstrate that the proposed model outperforms the baseline models in the context of streaming voice conversion, while maintaining comparable performance to the non-streaming topline system that leverages the complete context, albeit with a latency of only 252.8 ms.</p>
-
-    <table frame=void rules=none>
-      <tr>
-        <center><img src='raw/fig/overall.png'></center>
-      </tr>
-      <tr>
-      </tr>
-    </table>
-    <br><br>
-
-
-    <h2>2. Demos -- Voice Conversion<a name="Comparison"></a></h2>
-    <ul>
-      <li>Bottomline: Replace all convolution layers in the backbone model [1] with the causal version to create a naïve streaming implementation.</li>
-      <li>IBF-VC: Reinplement [2] using the backbone model.</li>
-      <li>Topline: Use the unmodified Backbone model which leverage full-context, but input BNF is extracted from a streaming ASR encoder.</li>
-      <li>DualVC-nonstreaming: Non-streaming mode of our proposed DualVC.</li>
-      <li>DualVC-streaming: Streaming mode of our proposed DualVC.</li>
-    </ul>
-
-    <table>
-      <tbody id="tbody">
-      </tbody>
-    </table> 
-    </br>
-    <cite>[1] X. Tian, Z. Wang, S. Yang, X. Zhou, H. Du, Y. Zhou, M. Zhang, K. Zhou, B. Sisman, L. Xie et al., “The nus & nwpu system for voice conversion challenge 2020,” in Proc. Joint Workshop for the Blizzard Challenge and Voice Conversion Challenge 2020, 2020, pp. 170–17</cite>
-    </br>
-    <cite>[2] Y. Chen, M. Tu, T. Li, X. Li, Q. Kong, J. Li, Z. Wang, Q. Tian, Y. Wang, and Y. Wang, “Streaming voice conversion via intermediate bottleneck features and non-streaming teacher guidance,” CoRR, vol. abs/2210.15158, 202</cite>
-  </section>
 </body>
 
 </html>
-
-<script type="" text/javascript>
-  window.onload = function () {
-    let scenes = ["Clean", "Noisy"]
-    let speakers = ["db_1", "M2VoC_male", "SSB1956", "SSB0273"]
-    //let speakers = ["db_1", "M2VoC_male"]
-    //let genders = ["female", "male"]
-    let genders = ["female", "male", "aishell female", "aishell male"]
-    let models = ["Bottomline", "Baseline", "Topline", "DualVC-nonstreaming", "DualVC-streaming"]
-    let all_samples = [["1.wav", "4.wav", "biaobei_8315010.wav", "TenXiaozhi_007_000472.wav"], 
-                    ["Y0000019527_oMwYDEEBw0g_S00489.wav", "Y0000019576_oVD68qz-Rrw_S00095.wav", "Y0000019686_omXo90yMpGc_S00895.wav", "Y0000019687_omf0WUsolCc_S00328.wav"]]
-    let sample_data = `
-        <tr>
-          <td style="text-align: center; width: 150px;" rowspan=2><strong>Scenario<strong></td>
-          <td style="text-align: center; width: 150px;" rowspan=2><strong>Target Speaker<strong></td>
-          <td style="text-align: center; width: 150px;" rowspan=2><strong>Source speech<strong></td>
-          <td style="text-align: center; width: 150px;" colspan=5><strong>Method<strong></td>
-        </tr>
-        <tr>
-        `
-    for (const id in models) {
-      model = models[id]
-      if (model == 'Baseline') {
-        model = 'IBF-VC'
-      }
-      sample_data += '<td style="text-align: center; width: 150px;" rowspan=1><strong>' + model + '<strong></td>'
-    }
-    sample_data += "</tr>"
-    console.log(sample_data)
-    
-    for (let x in scenes) {
-      let scene = scenes[x]
-      let scene_data = ""
-      scene_data += '<tr>'
-      scene_data += '<td style="text-align: center; width: 150px;" rowspan=' + 16 + '><strong>' + scene + ' Source' + '<strong></td>'
-      let samples = all_samples[x]
-      console.log(scene, samples)
-      for (let y in speakers) {
-        speaker = speakers[y]
-        gender = genders[y]
-        scene_data += '<td style="text-align: center; width: 150px;" rowspan=4>' + gender + '<audio style="width: 150px;"controls="" src="raw/samples/speakers/' + speaker + '.wav"></td>'
-        for (let z in samples) {
-          if (z != 0) {
-            scene_data += '<tr>'
-          }
-          let sample = samples[z]
-          scene_data += '<td style="text-align: center"><audio style="width: 150px;" controls="" src="raw/samples/' + scene + '/source/' + sample + '"></audio></td>'
-          for (let w in models) {
-            let model = models[w]
-            console.log(speaker + model)
-            if ((speaker == "SSB1956" || speaker == "SSB0273") && (model != "DualVC-streaming" && model != "DualVC-nonstreaming")) {
-              console.log("!!!")
-              scene_data += '<td style="text-align: center"><p>N/A</p></td>'
-            } else {
-              scene_data += '<td style="text-align: center"><audio style="width: 150px;" controls="" src="raw/samples/' + scene + '/' + model + '/' + speaker + '/' + sample + '"></audio></td>'
-            }
-          }
-          scene_data += '</tr>'
-        }
-      }
-      sample_data += scene_data
-    }
-    document.getElementById('tbody').innerHTML = sample_data
-  }
-</script>
