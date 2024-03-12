@@ -1,720 +1,186 @@
-<!DOCTYPE html>
-<html lang="en">
+# <center> LDM-SVC: Latent Diffusion Model Based Zero-Shot Any-to-Any Singing Voice Conversion with Singer Guidance </center>
+## Abstract
+<div style="text-align: justify"> Any-to-any singing voice conversion is a novel audio editing technique, aiming to convert the singing voice of one singer into that of another, given only a few seconds of singing data. However, during the conversion process, the issue of timbre leakage is inevitable: the converted singing voice still sounds like the original singer's voice. To better address the issue of timbre leakage, we propose the LDM-SVC method, which attempts to perform singing voice conversion in the latent space using a latent diffusion model. We trained a Variational Autoencoder structure using the noted open-source So-VITS-SVC project based on the VITS framework, and used this for our latent diffusion model training. Furthermore, we proposed a singer guidance training method, using a classifier-free inference method to further suppress the timbre of the original singer. Experiments show that our proposed method outperforms previous methods in both subjective and objective evaluations of timbre similarity.
+</div> 
 
-<head>
+![arch](images/pic1.png)
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="OlaWod">
+<body>
 
-    <title>FreeVC Demo Page</title>
+<br>
 
-    <!-- Bootstrap core CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" rel="stylesheet">
+<div align="center">
+<h1>Seen singer conversion</h1>
+</div>
+<div align="left">
+<h2>Male to Male</h2>
+<h3>
+  Target singer: 
+    <audio src="samples/seen/M2M/ref/M2M-3.wav" controls="controls"></audio><br>
+    Source singer: 
+    <audio src="samples/seen/M2M/src/M2M-3.wav" controls="controls"></audio><br>
+    <br> Converted wav: <br>
+    FastSVC: 
+    <audio src="samples/seen/M2M/0/M2M-3.wav" controls="controls"></audio>
+    DiffSVC:
+    <audio src="samples/seen/M2M/1/M2M-3.wav" controls="controls"></audio><br>
+    So-VITS-SVC: 
+    <audio src="samples/seen/M2M/2/M2M-3.wav" controls="controls"></audio>
+    + LDM:
+    <audio src="samples/seen/M2M/3/M2M-3.wav" controls="controls"></audio><br>
+    + Singer Guidance 
+    <audio src="samples/seen/M2M/4/M2M-3.wav" controls="controls"></audio> <br><br>
+</h3>
+</div> <br><br>
 
-    <!-- Custom fonts for this template -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<div align="left">
+<h2>Female to Male</h2>
+<h3>
 
-    <!-- Custom styles for this template -->
-    <link href="css/clean-blog.css" rel="stylesheet">
-	
-	<link rel="stylesheet" href="./css/fontawesome.all.min.css">
-	
-	<script defer src="./js/fontawesome.all.min.js"></script>
-	<!-- Bootstrap core JavaScript -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+  Target singer: 
+    <audio src="samples/seen/F2M/ref/F2M-0.wav" controls="controls"></audio><br>
+    Source singer: 
+    <audio src="samples/seen/F2M/src/F2M-0.wav" controls="controls"></audio><br>
+    <br> Converted wav: <br>
+    FastSVC: 
+    <audio src="samples/seen/F2M/0/F2M-0.wav" controls="controls"></audio>
+    DiffSVC:
+    <audio src="samples/seen/F2M/1/F2M-0.wav" controls="controls"></audio><br>
+    So-VITS-SVC: 
+    <audio src="samples/seen/F2M/2/F2M-0.wav" controls="controls"></audio>
+    + LDM:
+    <audio src="samples/seen/F2M/3/F2M-0.wav" controls="controls"></audio><br>
+    + Singer Guidance 
+    <audio src="samples/seen/F2M/4/F2M-0.wav" controls="controls"></audio> <br><br>
+</h3>
+</div> <br><br>
+<div align="left">
+<h2>Female to Female</h2>
+<h3>
 
-	<!-- Custom scripts for this template -->
-	<script src="js/clean-blog.js"></script>
-	<script src="js/interp.js"></script>
+  Target singer: 
+    <audio src="samples/seen/F2F/ref/F2F-0.wav" controls="controls"></audio><br>
+    Source singer: 
+    <audio src="samples/seen/F2F/src/F2F-0.wav" controls="controls"></audio><br>
+    <br> Converted wav: <br>
+    FastSVC: 
+    <audio src="samples/seen/F2F/0/F2F-0.wav" controls="controls"></audio>
+    DiffSVC:
+    <audio src="samples/seen/F2F/1/F2F-0.wav" controls="controls"></audio><br>
+    So-VITS-SVC: 
+    <audio src="samples/seen/F2F/2/F2F-0.wav" controls="controls"></audio>
+    + LDM:
+    <audio src="samples/seen/F2F/3/F2F-0.wav" controls="controls"></audio><br>
+    + Singer Guidance 
+    <audio src="samples/seen/F2F/4/F2F-0.wav" controls="controls"></audio> <br><br>
+</h3>
+</div> <br><br>
+<div align="left">
+<h2>Male to Female</h2>
+<h3>
 
-</head>
+  Target singer: 
+    <audio src="samples/seen/M2F/ref/M2F-1.wav" controls="controls"></audio><br>
+    Source singer: 
+    <audio src="samples/seen/M2F/src/M2F-1.wav" controls="controls"></audio><br>
+    <br> Converted wav: <br>
+    FastSVC: 
+    <audio src="samples/seen/M2F/0/M2F-1.wav" controls="controls"></audio>
+    DiffSVC:
+    <audio src="samples/seen/M2F/1/M2F-1.wav" controls="controls"></audio><br>
+    So-VITS-SVC: 
+    <audio src="samples/seen/M2F/2/M2F-1.wav" controls="controls"></audio>
+    + LDM:
+    <audio src="samples/seen/M2F/3/M2F-1.wav" controls="controls"></audio><br>
+    + Singer Guidance 
+    <audio src="samples/seen/M2F/4/M2F-1.wav" controls="controls"></audio> <br><br>
+</h3>
+</div> 
+<div align="center">
+<h1>Zero-shot unseen singer conversion</h1>
+</div>
+<div align="left">
+<h2>Male to Male</h2>
+<h3>
+  Target singer: 
+    <audio src="samples/unseen/M2M/ref/M2M-2.wav" controls="controls"></audio><br>
+    Source singer: 
+    <audio src="samples/unseen/M2M/src/M2M-2.wav" controls="controls"></audio><br>
+    <br> Converted wav: <br>
+    FastSVC: 
+    <audio src="samples/unseen/M2M/0/M2M-2.wav" controls="controls"></audio>
+    DiffSVC:
+    <audio src="samples/unseen/M2M/1/M2M-2.wav" controls="controls"></audio><br>
+    So-VITS-SVC: 
+    <audio src="samples/unseen/M2M/2/M2M-2.wav" controls="controls"></audio>
+    + LDM:
+    <audio src="samples/unseen/M2M/3/M2M-2.wav" controls="controls"></audio><br>
+    + Singer Guidance 
+    <audio src="samples/unseen/M2M/4/M2M-2.wav" controls="controls"></audio> <br><br>
+</h3>
+</div> <br><br>
 
-<body id="page-top">
+<div align="left">
+<h2>Female to Male</h2>
+<h3>
 
-	<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
-		<div class="container">
-			<a class="navbar-brand js-scroll-trigger" href="#page-top">FreeVC</a>
-			<button class="navbar-toggler navbar-toggler-right font-weight-bold text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu <i class="fas fa-bars"></i></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#abstract">Abstract</a>
-					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#sr">Spectrogram-Resize</a></li>
-					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#s2s">Seen-to-Seen</a></li>
-					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#u2s">Unseen-to-Seen</a></li>
-					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#u2u">Unseen-to-Unseen</a></li>
-					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#exp">Others</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+  Target singer: 
+    <audio src="samples/unseen/F2M/ref/F2M-4.wav" controls="controls"></audio><br>
+    Source singer: 
+    <audio src="samples/unseen/F2M/src/F2M-4.wav" controls="controls"></audio><br>
+    <br> Converted wav: <br>
+    FastSVC: 
+    <audio src="samples/unseen/F2M/0/F2M-4.wav" controls="controls"></audio>
+    DiffSVC:
+    <audio src="samples/unseen/F2M/1/F2M-4.wav" controls="controls"></audio><br>
+    So-VITS-SVC: 
+    <audio src="samples/unseen/F2M/2/F2M-4.wav" controls="controls"></audio>
+    + LDM:
+    <audio src="samples/unseen/F2M/3/F2M-4.wav" controls="controls"></audio><br>
+    + Singer Guidance 
+    <audio src="samples/unseen/F2M/4/F2M-4.wav" controls="controls"></audio> <br><br>
+</h3>
+</div> <br><br>
+<div align="left">
+<h2>Female to Female</h2>
+<h3>
 
-    <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/home-bg.jpg')">
-        <div class="container" style="padding-bottom:10px">
-            <div class="row">
-                <div class="col-lg-10 col-md-10 mx-auto">
-                    <div class="site-heading">
-                        <h1>FreeVC Demo</h1>
-                        <span class="subheading">
-                            FREEVC: TOWARDS HIGH-QUALITY TEXT-FREE ONE-SHOT VOICE CONVERSION
-                        </span>
-                    </div>
-                </div>
-            </div>
-			
-            <div class="text-center">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/2210.15418" target="_blank"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf fa-inverse"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://github.com/OlaWod/FreeVC" target="_blank"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github fa-inverse"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-            </div>
-			
-        </div>
-    </header>
+  Target singer: 
+    <audio src="samples/unseen/F2F/ref/F2F-5.wav" controls="controls"></audio><br>
+    Source singer: 
+    <audio src="samples/unseen/F2F/src/F2F-5.wav" controls="controls"></audio><br>
+    <br> Converted wav: <br>
+    FastSVC: 
+    <audio src="samples/unseen/F2F/0/F2F-5.wav" controls="controls"></audio>
+    DiffSVC:
+    <audio src="samples/unseen/F2F/1/F2F-5.wav" controls="controls"></audio><br>
+    So-VITS-SVC: 
+    <audio src="samples/unseen/F2F/2/F2F-5.wav" controls="controls"></audio>
+    + LDM:
+    <audio src="samples/unseen/F2F/3/F2F-5.wav" controls="controls"></audio><br>
+    + Singer Guidance 
+    <audio src="samples/unseen/F2F/4/F2F-5.wav" controls="controls"></audio> <br><br>
+</h3>
+</div> 
+<br><br>
+<div align="left">
+<h2>Male to Female</h2>
+<h3>
 
-    <!-- Main Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-14 col-md-12 mx-auto">
-                <div class="post-preview" id="abstract">
-                    <h2 class="post-title">
-                        Abstract
-                    </h2>
-                    <p>
-                        Voice conversion (VC) can be achieved by first extracting source content information and target speaker information, and then reconstructing waveform with these information. However, current approaches normally either extract dirty content information with speaker information leaked in, or demand a large amount of annotated data for training. Besides, the quality of reconstructed waveform can be degraded by the mismatch between conversion model and vocoder. In this paper, we adopt the end-to-end framework of VITS for high-quality waveform reconstruction, and propose strategies for clean content information extraction without text annotation. We disentangle content information by imposing an information bottleneck to WavLM features, and propose the spectrogram-resize based data augmentation to improve the purity of extracted content information. Experimental results show that the proposed method outperforms the latest VC models trained with annotated data and has greater robustness.
-						
-					</p>
-                </div>
-				
-				<div class="post-preview" id="sr">
-                    <h2 class="post-title">
-                        Spectrogram-Resize
-                    </h2>
-                    
-					<div class="hero-body">
-						<div class="content has-text-justified">
-						  <p>
-							Use the sliders below to perform vertical or horizontal spectrogram-resize operation.
-						  </p>
-						</div>
-						<div class="columns is-vcentered interpolation-panel">
-						  <div class="column">
-						    <div id="interpolation-audio-wrapper">
-							  Loading audio...
-							</div>
-							<div id="interpolation-image-wrapper">
-							  Loading image...
-							</div>
-							<div id="vertical-slider-wrapper">
-								<span>&nbsp &nbsp veritical: </span>
-								<input class="slider is-fullwidth is-large is-info"
-								   id="vertical-slider"
-								   step="2" min="68" max="92" value="80" type="range">
-								<span id="vertical-rate">1</span>
-							</div>
-							<div id="horizontal-slider-wrapper">
-							<span>horizontal: </span>
-							<input class="slider is-fullwidth is-large is-info"
-								   id="horizontal-slider"
-								   step="10" min="96" max="346" value="176" type="range">
-							<span id="horizontal-rate">1</span>
-							</div>
-						  </div>
-						</div>
-						<br/>
-						<!--/ Interpolating. -->
-					</div>
-					
-                </div>			
-				
-                <div class="post-preview">
-                    <h2 class="post-title">
-                        One-shot Voice Conversion
-                    </h2>
-                    <h3 class="post-meta" id="s2s">
-                        Seen-to-Seen
-                    </h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Source</th>
-                                <th scope="col">Target</th>
-                                <th scope="col">Conversion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            <tr>
-                                <td>F_p335_302
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_p335_302.wav">
-                                    </audio>
-                                </td>
-                                <td>F_p253_219
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_p253_219.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\s2s\F_p335_302-F_p253_219_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\s2s\F_p335_302-F_p253_219.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\s2s\F_p335_302-F_p253_219.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\s2s\F_p335_302-F_p253_219.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\s2s\F_p335_302-F_p253_219.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\s2s\F_p335_302-F_p253_219.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>F_p362_103
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_p362_103.wav">
-                                    </audio>
-                                </td>
-                                <td>M_p237_001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_p237_001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\s2s\F_p362_103-M_p237_001_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\s2s\F_p362_103-M_p237_001.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\s2s\F_p362_103-M_p237_001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\s2s\F_p362_103-M_p237_001.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\s2s\F_p362_103-M_p237_001.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\s2s\F_p362_103-M_p237_001.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>M_p237_001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_p237_001.wav">
-                                    </audio>
-                                </td>
-                                <td>F_p335_302
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_p335_302.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\s2s\M_p237_001-F_p335_302_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\s2s\M_p237_001-F_p335_302.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\s2s\M_p237_001-F_p335_302.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\s2s\M_p237_001-F_p335_302.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\s2s\M_p237_001-F_p335_302.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\s2s\M_p237_001-F_p335_302.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>M_p272_219
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_p272_219.wav">
-                                    </audio>
-                                </td>
-                                <td>M_p259_464
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_p259_464.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\s2s\M_p272_219-M_p259_464_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\s2s\M_p272_219-M_p259_464.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\s2s\M_p272_219-M_p259_464.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\s2s\M_p272_219-M_p259_464.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\s2s\M_p272_219-M_p259_464.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\s2s\M_p272_219-M_p259_464.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-					<hr>
-					<h3 class="post-meta" id="u2s">
-                        Unseen-to-Seen
-                    </h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Source</th>
-                                <th scope="col">Target</th>
-                                <th scope="col">Conversion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            <tr>
-                                <td>F_5142_36377_000004_000012
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_5142_36377_000004_000012.wav">
-                                    </audio>
-                                </td>
-                                <td>F_p253_219
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_p253_219.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\u2s\F_5142_36377_000004_000012-F_p253_219_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\u2s\F_5142_36377_000004_000012-F_p253_219.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\u2s\F_5142_36377_000004_000012-F_p253_219.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\u2s\F_5142_36377_000004_000012-F_p253_219.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\u2s\F_5142_36377_000004_000012-F_p253_219.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\u2s\F_5142_36377_000004_000012-F_p253_219.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>F_8463_287645_000023_000001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_8463_287645_000023_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>M_p237_001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_p237_001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\u2s\F_8463_287645_000023_000001-M_p237_001_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\u2s\F_8463_287645_000023_000001-M_p237_001.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\u2s\F_8463_287645_000023_000001-M_p237_001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\u2s\F_8463_287645_000023_000001-M_p237_001.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\u2s\F_8463_287645_000023_000001-M_p237_001.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\u2s\F_8463_287645_000023_000001-M_p237_001.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>M_1320_122617_000013_000001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_1320_122617_000013_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>F_p335_302
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_p335_302.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\u2s\M_1320_122617_000013_000001-F_p335_302_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\u2s\M_1320_122617_000013_000001-F_p335_302.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\u2s\M_1320_122617_000013_000001-F_p335_302.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\u2s\M_1320_122617_000013_000001-F_p335_302.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\u2s\M_1320_122617_000013_000001-F_p335_302.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\u2s\M_1320_122617_000013_000001-F_p335_302.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>M_5105_28233_000016_000001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_5105_28233_000016_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>M_p259_464
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_p259_464.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\u2s\M_5105_28233_000016_000001-M_p259_464_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\u2s\M_5105_28233_000016_000001-M_p259_464.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\u2s\M_5105_28233_000016_000001-M_p259_464.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\u2s\M_5105_28233_000016_000001-M_p259_464.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\u2s\M_5105_28233_000016_000001-M_p259_464.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\u2s\M_5105_28233_000016_000001-M_p259_464.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-					<hr>
-					<h3 class="post-meta" id="u2u">
-                        Unseen-to-Unseen
-                    </h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Source</th>
-                                <th scope="col">Target</th>
-                                <th scope="col">Conversion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            <tr>
-                                <td>F_3575_170457_000032_000001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_3575_170457_000032_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>M_5105_28233_000016_000001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_5105_28233_000016_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\u2u\F_3575_170457_000032_000001-M_5105_28233_000016_000001_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\u2u\F_3575_170457_000032_000001-M_5105_28233_000016_000001.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\u2u\F_3575_170457_000032_000001-M_5105_28233_000016_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\u2u\F_3575_170457_000032_000001-M_5105_28233_000016_000001.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\u2u\F_3575_170457_000032_000001-M_5105_28233_000016_000001.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\u2u\F_3575_170457_000032_000001-M_5105_28233_000016_000001.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>F_8463_287645_000023_000001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_8463_287645_000023_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>F_3575_170457_000032_000001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_3575_170457_000032_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\u2u\F_8463_287645_000023_000001-F_3575_170457_000032_000001_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\u2u\F_8463_287645_000023_000001-F_3575_170457_000032_000001.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\u2u\F_8463_287645_000023_000001-F_3575_170457_000032_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\u2u\F_8463_287645_000023_000001-F_3575_170457_000032_000001.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\u2u\F_8463_287645_000023_000001-F_3575_170457_000032_000001.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\u2u\F_8463_287645_000023_000001-F_3575_170457_000032_000001.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>M_5105_28233_000016_000001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_5105_28233_000016_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>M_1320_122617_000013_000001
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_1320_122617_000013_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\u2u\M_5105_28233_000016_000001-M_1320_122617_000013_000001_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\u2u\M_5105_28233_000016_000001-M_1320_122617_000013_000001.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\u2u\M_5105_28233_000016_000001-M_1320_122617_000013_000001.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\u2u\M_5105_28233_000016_000001-M_1320_122617_000013_000001.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\u2u\M_5105_28233_000016_000001-M_1320_122617_000013_000001.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\u2u\M_5105_28233_000016_000001-M_1320_122617_000013_000001.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>M_908_31957_000018_000000
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\M_908_31957_000018_000000.wav">
-                                    </audio>
-                                </td>
-                                <td>F_5142_36377_000004_000012
-                                    <audio controls preload="none">
-                                        <source src="data\wavs\F_5142_36377_000004_000012.wav">
-                                    </audio>
-                                </td>
-                                <td>
-									VQMIVC
-                                    <audio controls preload="none">
-                                        <source src="data/vqmivc\u2u\M_908_31957_000018_000000-F_5142_36377_000004_000012_gen.wav">
-                                    </audio> 
-									BNE-PPG-VC
-                                    <audio controls preload="none">
-                                        <source src="data/bne-ppg-vc\u2u\M_908_31957_000018_000000-F_5142_36377_000004_000012.wav">
-                                    </audio>
-									YourTTS
-                                    <audio controls preload="none">
-                                        <source src="data/yourtts\u2u\M_908_31957_000018_000000-F_5142_36377_000004_000012.wav">
-                                    </audio>
-                                </td>
-                                <td>
-								    FreeVC
-                                    <audio controls preload="none">
-                                        <source src="data/freevc\u2u\M_908_31957_000018_000000-F_5142_36377_000004_000012.wav">
-                                    </audio> 
-									FreeVC (w/o SR)
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-sr\u2u\M_908_31957_000018_000000-F_5142_36377_000004_000012.wav">
-                                    </audio>
-									FreeVC-s
-                                    <audio controls preload="none">
-                                        <source src="data/freevc-spk\u2u\M_908_31957_000018_000000-F_5142_36377_000004_000012.wav">
-                                    </audio>
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-				
-				<div class="post-preview" id="exp">
-                    <h2 class="post-title">
-                        Additional Experiments
-                    </h2>
-                    <p>
-						We also conduct objective experiments to other models that are not listed in the paper. 
-						We randomly select 400 utterances (200 from VCTK, 200 from LibriTTS) as source speech, 
-						and 12 speakers (6 seen, 6 unseen) as target speaker. 
-						The results are shown below.
-					</p>
-					<img src="data/exp/model.png">
-					<img src="data/exp/exp1.png">
-					<img src="data/exp/exp2.png">
-                </div>
-				<hr>
-				
-            </div>
-        </div>
-		</div>
-
-
-</body>
-
-</html>
+  Target singer: 
+    <audio src="samples/unseen/M2F/ref/M2F-7.wav" controls="controls"></audio><br>
+    Source singer: 
+    <audio src="samples/unseen/M2F/src/M2F-7.wav" controls="controls"></audio><br>
+    <br> Converted wav: <br>
+    FastSVC: 
+    <audio src="samples/unseen/M2F/0/M2F-7.wav" controls="controls"></audio>
+    DiffSVC:
+    <audio src="samples/unseen/M2F/1/M2F-7.wav" controls="controls"></audio><br>
+    So-VITS-SVC: 
+    <audio src="samples/unseen/M2F/2/M2F-7.wav" controls="controls"></audio>
+    + LDM:
+    <audio src="samples/unseen/M2F/3/M2F-7.wav" controls="controls"></audio><br>
+    + Singer Guidance 
+    <audio src="samples/unseen/M2F/4/M2F-7.wav" controls="controls"></audio> <br><br>
+</h3>
+</div> 
